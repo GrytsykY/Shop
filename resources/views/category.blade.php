@@ -4,10 +4,12 @@
 
 @section('content')
     <div class="starter-template">
-        <h1>{{$category->name}}</h1>
+        <h1>{{$category->name}} {{$category->products->count()}}-шт.</h1>
         <p>{{$category->description}}</p>
         <div class="row">
-            @include('card')
+            @foreach($category->products as $product)
+                @include('card',compact('product'))
+            @endforeach
         </div>
 
     </div>
