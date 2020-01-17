@@ -17,7 +17,12 @@ class BasketController extends Controller
     }
     public function basketPlace()
     {
-        return view('order');
+        $orderId = session('orderID');
+        if (is_null($orderId)){
+            return redirect()->route('index');
+        }
+        $order = Order::find($orderId);
+        return view('order',compact('order'));
     }
     public function basketAdd($productId)
     {
@@ -59,5 +64,9 @@ class BasketController extends Controller
         }
 
         return redirect()->route('basket');
+    }
+    public function basketConfirm()
+    {
+
     }
 }
