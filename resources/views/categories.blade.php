@@ -1,35 +1,21 @@
 @extends('master')
 
+@section('title','Все категории')
+
 @section('content')
 
     <div class="starter-template">
+        @foreach($categories as $category)
         <div class="panel">
-            <a href="http://internet-shop.tmweb.ru/mobiles">
-                <img src="http://internet-shop.tmweb.ru/storage/categories/mobile.jpg">
-                <h2>Мобильные телефоны</h2>
+            <a href="/{{$category->code}}/{{$category->id}}">
+                <img style="width: 50px" src="/images/{{$category->img}}">
+                <h2>{{$category->name}}</h2>
             </a>
             <p>
-                В этом разделе вы найдёте самые популярные мобильные телефонамы по отличным ценам!
+                {{$category->description}}
             </p>
         </div>
-        <div class="panel">
-            <a href="http://internet-shop.tmweb.ru/portable">
-                <img src="http://internet-shop.tmweb.ru/storage/categories/portable.jpg">
-                <h2>Портативная техника</h2>
-            </a>
-            <p>
-                Раздел с портативной техникой.
-            </p>
-        </div>
-        <div class="panel">
-            <a href="http://internet-shop.tmweb.ru/appliances">
-                <img src="http://internet-shop.tmweb.ru/storage/categories/appliance.jpg">
-                <h2>Бытовая техника</h2>
-            </a>
-            <p>
-                Раздел с бытовой техникой
-            </p>
-        </div>
+        @endforeach
     </div>
 
 @endsection

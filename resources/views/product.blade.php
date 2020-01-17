@@ -1,5 +1,7 @@
 @extends('master')
 
+@section('title','Продукты')
+
 @section('content')
 
     <div class="starter-template">
