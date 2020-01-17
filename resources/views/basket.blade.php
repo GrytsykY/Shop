@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-    <p class="alert alert-success">Добавлен товар HTC One S</p>
     <h1>Корзина</h1>
     <p>Оформление заказа</p>
     <div class="panel">
@@ -15,6 +14,7 @@
             </tr>
             </thead>
             <tbody>
+            @if($order ?? '')
             @foreach($order->products as $product)
                 <tr>
                     <td>
@@ -49,6 +49,7 @@
                 <td>{{$order->getFullPrice()}} грн.</td>
             </tr>
             </tbody>
+            @endif
         </table>
         <br>
         <div class="btn-group pull-right" role="group">
