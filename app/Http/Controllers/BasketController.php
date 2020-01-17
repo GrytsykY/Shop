@@ -28,7 +28,7 @@ class BasketController extends Controller
         } else {
             $order = Order::find($orderId);
         }
-        dd($order);
+        //dd($order);
         $order->products()->attach($productId);
 
         return view('basket',compact('order'));
