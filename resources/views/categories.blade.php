@@ -5,7 +5,7 @@
 @section('content')
     @foreach($categories as $category)
         <div class="panel">
-            <a href="{{route('category',$category->code)}}">
+            <a href="{{route('categories',$category->code)}}">
                 <img style="width: 50px" src="/images/{{$category->img}}">
                 <h2>{{$category->name}}</h2>
             </a>
