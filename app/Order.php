@@ -10,15 +10,22 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('count')->withTimestamps();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getFullPrice()
     {
         $sum = 0;
-        foreach ($this->products as $product){
+        foreach ($this->products as $product) {
             $sum += $product->getPriceForCount();
         }
         return $sum;
     }
-    public function saveOrder($name,$phone)
+
+    public function saveOrder($name, $phone)
     {
         if ($this->status == 0) {
             $this->name = $name;
@@ -27,7 +34,7 @@ class Order extends Model
             $this->save();
             session()->forget('orderID');
             return true;
-        }else{
+        } else {
             return false;
         }
     }
