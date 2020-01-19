@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-//    public function getCategory()
-//    {
-//        return Category::find($this->category_id);
-//    }
+
+    protected $fillable = [
+        'category_id',
+        'name',
+        'code',
+        'description',
+        'img',
+        'price',
+    ];
 
     public function category()
     {

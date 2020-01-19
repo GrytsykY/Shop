@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::get();
-        //dd($categories);
-        return view('auth.categories.index',compact('categories'));
+        $products = Product::paginate(15);
+        return view('auth.products.index', compact('products'));
     }
 
     /**
@@ -28,7 +28,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('auth.categories.form');
+        $categories = Category::get();
+        return view('auth.products.form', compact('categories'));
     }
 
     /**
@@ -39,72 +40,78 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //$path = $request->file('image')->store('categories');
         $params = $request->all();
-        //$params['img'] = $path;
+
         unset($params['img']);
         if ($request->has('image')) {
-            $params['img'] = $request->file('image')->store('categories');
+            $params['img'] = $request->file('image')->store('products');
         }
 
-
-
-        Category::create($params);
-        return redirect()->route('categories.index');
+        Product::create($params);
+        return redirect()->route('products.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Product $product)
     {
-        return view('auth.categories.show', compact('category'));
+        return view('auth.products.show', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Product $product)
     {
-        return view('auth.categories.form', compact('category'));
+        $categories = Category::get();
+        return view('auth.products.form', compact('product', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Product $product)
     {
         $params = $request->all();
         unset($params['img']);
         if ($request->has('image')) {
-            Storage::delete($category->img);
-            $params['img'] = $request->file('image')->store('categories');
+            Storage::delete($product->img);
+            $params['img'] = $request->file('image')->store('products');
         }
 
-        $category->update($params);
-        return redirect()->route('categories.index');
+        foreach (['new', 'hit', 'recommend'] as $fieldName) {
+            if (!isset($params[$fieldName])) {
+                $params[$fieldName] = 0;
+            }
+        }
+
+//        dd($params);
+
+        $product->update($params);
+        return redirect()->route('products.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Product $product)
     {
-        $category->delete();
-        Storage::delete($category->img);
-        return redirect()->route('categories.index');
+        $product->delete();
+        Storage::delete($product->img);
+        return redirect()->route('products.index');
     }
 }

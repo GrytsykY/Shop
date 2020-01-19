@@ -4,7 +4,7 @@
 
 
         </div>
-        <img src="/images/{{$product->img}}" alt="iPhone X 64GB">
+        <img src="{{ Storage::url($product->img) }}" alt="iPhone X 64GB">
         <div class="caption">
             <h3>{{$product->name}}</h3>
             <p>{{$product->price}} грн.</p>
