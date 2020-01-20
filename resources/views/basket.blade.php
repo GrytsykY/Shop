@@ -14,12 +14,12 @@
             </tr>
             </thead>
             <tbody>
-            @if($order ?? '')
-            @foreach($order->products as $product)
+
+            @foreach($order->products()->with('category')->get() as $product)
                 <tr>
                     <td>
                         <a href="{{route('product',[$product->category->code, $product->code])}}">
-                            <img height="56px" src="/images/{{$product->img}}">
+                            <img height="56px" src="{{ Storage::url($product->img) }}">
                             <span style="padding-left: 6px"> {{$product->name}}</span>
                         </a>
                     </td>
@@ -49,7 +49,7 @@
                 <td>{{$order->getFullPrice()}} грн.</td>
             </tr>
             </tbody>
-            @endif
+
         </table>
         <br>
         <div class="btn-group pull-right" role="group">

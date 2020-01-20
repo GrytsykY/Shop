@@ -27,6 +27,7 @@ class Order extends Model
 
     public function saveOrder($name, $phone)
     {
+
         if ($this->status == 0) {
             $this->name = $name;
             $this->phone = $phone;
@@ -37,5 +38,6 @@ class Order extends Model
         } else {
             return false;
         }
+
     }
 }

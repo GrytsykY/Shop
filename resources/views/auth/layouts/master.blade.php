@@ -27,11 +27,13 @@
             </a>
 
             <div id="navbar" class="collapse navbar-collapse">
+                @admin
                 <ul class="nav navbar-nav">
                     <li><a href="{{route('categories.index')}}">Категории</a></li>
                     <li><a href="{{route('products.index')}}">Товары</a></li>
                     <li><a href="">Заказы</a></li>
                 </ul>
+                @endadmin
 
                 @guest
                     <ul class="nav navbar-nav navbar-right">
@@ -49,13 +51,13 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false" v-pre>
-                                Yura
+                                @admin Администратор @else {{ Auth::user()->name }} @endadmin
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{route('logout')}}"
                                    onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                     document.getElementById('logout-form').submit();">
                                     Выйти
                                 </a>
 

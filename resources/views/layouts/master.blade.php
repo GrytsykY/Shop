@@ -11,6 +11,8 @@
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/starter-template.css" rel="stylesheet">
+
+
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -20,19 +22,23 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{route('index')}}">Все товары</a></li>
-                <li><a href="{{route('categories')}}">Категории</a>
+                <li @routeactive('index')><a href="{{route('index')}}">Все товары</a></li>
+                <li @routeactive('categor*')><a href="{{route('categories')}}">Категории</a>
                 </li>
-                <li><a href="{{route('basket')}}">В корзину</a></li>
+                <li @routeactive('basket*')><a href="{{route('basket')}}">В корзину</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 @guest
-                    <li><a href="{{route('login')}}">Панель администратора</a></li>
+                    <li><a href="{{route('login')}}">Войти</a></li>
                 @endguest
 
                 @auth
-                    <li><a href="{{route('home')}}">Панель администратора</a></li>
+                    @if(Auth::user()->isAdmin())
+                        <li><a href="{{route('home')}}">Панель администратора</a></li>
+                    @else
+                        <li><a href="{{route('person.orders.index')}}">Мои заказы</a></li>
+                    @endif
                     <li><a href="{{route('get-logout')}}">Выйти</a></li>
                 @endauth
             </ul>
@@ -52,6 +58,9 @@
     </div>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/myJS.js') }}"></script>
 </body>
 </html>
