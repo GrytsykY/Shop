@@ -26,6 +26,7 @@
                 <li @routeactive('categor*')><a href="{{route('categories')}}">Категории</a>
                 </li>
                 <li @routeactive('basket*')><a href="{{route('basket')}}">В корзину</a></li>
+                <li><a href="{{route('reset')}}">Cброс в нач-состояние</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
