@@ -23,8 +23,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li @routeactive('index')><a href="{{route('index')}}">Все товары</a></li>
-                <li @routeactive('categor*')><a href="{{route('categories')}}">Категории</a>
-                </li>
+                <li @routeactive('categor*')><a href="{{route('categories')}}">Категории</a></li>
                 <li @routeactive('basket*')><a href="{{route('basket')}}">В корзину</a></li>
                 <li><a href="{{route('reset')}}">Cброс в нач-состояние</a></li>
             </ul>

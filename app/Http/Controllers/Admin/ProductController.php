@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(15);
+        $products = Product::paginate(10);
         return view('auth.products.index', compact('products'));
     }
 
@@ -97,7 +97,7 @@ class ProductController extends Controller
             }
         }
 
-//        dd($params);
+        //dd($params);
 
         $product->update($params);
         return redirect()->route('products.index');

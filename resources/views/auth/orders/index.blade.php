@@ -51,12 +51,15 @@
                                 </td>
                             </tr>
                         @endforeach
+
                         </tbody>
                     </table>
 
                 </div>
             </div>
         </div>
+        {{$orders->links()}}
     </div>
+
 @endsection
 
