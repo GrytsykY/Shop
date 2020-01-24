@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,13 +16,29 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getFullPrice()
+    public static function eraseOrderSum()
+    {
+        session()->forget('full_order_sum');
+    }
+
+    public function calculateFullSum()
     {
         $sum = 0;
         foreach ($this->products as $product) {
             $sum += $product->getPriceForCount();
         }
         return $sum;
+    }
+
+    public static function changeFullSum($changeSum)
+    {
+        $sum = self::getFullSum() + $changeSum;
+        session(['full_order_sum' => $sum]);
+    }
+
+    public static function getFullSum()
+    {
+        return session('full_order_sum',0);
     }
 
     public function saveOrder($name, $phone)

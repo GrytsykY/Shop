@@ -46,7 +46,7 @@
 
             <tr>
                 <td colspan="3">Общая стоимость:</td>
-                <td>{{$order->getFullPrice()}} грн.</td>
+                <td>{{$order->calculateFullSum()}} грн.</td>
             </tr>
             </tbody>
 
