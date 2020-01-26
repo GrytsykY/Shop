@@ -17,6 +17,7 @@ class Product extends Model
         'new',
         'hit',
         'recommend',
+        'count',
     ];
 
     public function category()
@@ -62,19 +63,24 @@ class Product extends Model
         $this->attributes['recommend'] = $value === 'on' ? 1 : 0;
     }
 
+    public function isAvaliable()
+    {
+        return $this->count > 0;
+    }
+
     public function isHit()
     {
-        return $this->hit === 1;
+        return $this->hit == 1;
     }
 
     public function isNew()
     {
-        return $this->new === 1;
+        return $this->new == 1;
     }
 
     public function isRecommend()
     {
-        return $this->recommend === 1;
+        return $this->recommend == 1;
     }
 
 }
