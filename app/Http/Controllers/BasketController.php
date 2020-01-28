@@ -41,17 +41,16 @@ class BasketController extends Controller
             session()->flash('warning', 'Tовар ' . $product->name . ' в большем кол-ве не доступен для заказа');
         }
 
-
-
         return redirect()->route('basket');
     }
 
     public function basketRemove($productId)
     {
-        //dd($product);
         (new Basket())->removeProduct($productId);
-        Order::eraseOrderSum();
+        //dd((new Basket())->countAvailable());
+        //Order::eraseOrderSum();
         $product= Product::find($productId);
+
         session()->flash('warning', 'Удален товар ' . $product->name);
 
         return redirect()->route('basket');
@@ -59,7 +58,8 @@ class BasketController extends Controller
 
     public function basketConfirm(Request $request)
     {
-        if ((new Basket())->saveOrder($request->name, $request->phone)) {
+        $email = Auth::check() ? Auth::user()->email : $request->email;
+        if ((new Basket())->saveOrder($request->name, $request->phone, $email)) {
             session()->flash('success', 'Ваш заказ принят на обработку');
         } else {
             session()->flash('warning', 'Tовар не доступен для заказа');

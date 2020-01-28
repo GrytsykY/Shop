@@ -4,9 +4,11 @@
 namespace App\Classes;
 
 
+use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Scalar\String_;
 use function PHPSTORM_META\type;
 
@@ -51,13 +53,14 @@ class Basket
             }
             if ($updateCount) {
                 $orderProduct->count -= $this->getPivotRow($orderProduct)->count;
-                return true;
             }
+
         }
 
         if ($updateCount) {
             $this->order->products->map->save();
         }
+
 
         return true;
     }
@@ -73,9 +76,9 @@ class Basket
 
     protected function getPivotRow($product)
     {
-        if(gettype($product)=='object') {
+        if (gettype($product) == 'object') {
             return $this->order->products()->where('product_id', $product->id)->first()->pivot;
-        }else{
+        } else {
             return $this->order->products()->where('product_id', $product)->first()->pivot;
         }
     }
@@ -86,11 +89,13 @@ class Basket
             $pivotRow = $this->getPivotRow($productId);
             if ($pivotRow->count < 2) {
                 $this->order->products()->detach($productId);
+                //Order::eraseOrderSum();
             } else {
                 $pivotRow->count--;
                 $pivotRow->update();
             }
         }
+
         $product = Product::find($productId);
         Order::changeFullSum(-$product->price);
     }
