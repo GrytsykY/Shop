@@ -10,14 +10,18 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('status',1)->paginate(10);
+        $orders = Order::active()->paginate(10);
         return view('auth.orders.index',compact('orders'));
     }
 
+    /**
+     * @param Order $order
+     */
     public function show(Order $order)
     {
         //dd($order);
-        view('auth.orders.show',compact('order'));
+        $products = $order->products()->withTrashed()->get();
+        view('auth.orders.show',compact('order','products'));
     }
 
 }

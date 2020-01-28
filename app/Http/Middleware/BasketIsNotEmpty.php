@@ -19,7 +19,7 @@ class BasketIsNotEmpty
     {
         //session()->flush();die();
         $orderId = session('orderID');
-
+//dd(Order::getFullSum());
         if (!is_null($orderId) && Order::getFullSum() > 0) {
 
             return $next($request);

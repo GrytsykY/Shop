@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
 
     protected $fillable = [
         'category_id',
@@ -48,6 +50,11 @@ class Product extends Model
         return $query->where('recommend', 1);
     }
 
+    public function scopeByCode($query, $code)
+    {
+        return $query->where('code', $code);
+    }
+
     public function setNewAttribute($value)
     {
         $this->attributes['new'] = $value === 'on' ? 1 : 0;
@@ -65,7 +72,7 @@ class Product extends Model
 
     public function isAvaliable()
     {
-        return $this->count > 0;
+        return !$this->trashed() && $this->count > 0;
     }
 
     public function isHit()

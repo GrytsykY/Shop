@@ -11,16 +11,18 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Auth::user()->orders()->where('status',1)->paginate(1);
+        $orders = Auth::user()->orders()->active()->paginate(10);
         return view('auth.orders.index',compact('orders'));
     }
 
     public function show(Order $order)
     {
+        //dd($order);
         if (!Auth::user()->orders->contains($order)) {
+
             return back();
         }
-//dd($order);
-        view('auth.orders.show',compact('order'));
+        //dd($order);
+        view('auth.orders.shows',compact('order'));
     }
 }

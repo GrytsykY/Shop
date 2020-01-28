@@ -27,6 +27,15 @@
                     Кол-во
                 </th>
                 <th>
+                    New
+                </th>
+                <th>
+                    Hit
+                </th>
+                <th>
+                    Recom
+                </th>
+                <th>
                     Действия
                 </th>
             </tr>
@@ -38,6 +47,9 @@
                     <td>{{ $product->category->name }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->count }}</td>
+                    <td>{{ $product->new }}</td>
+                    <td>{{ $product->hit }}</td>
+                    <td>{{ $product->recommend }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <form action="{{ route('products.destroy', $product) }}" method="POST">

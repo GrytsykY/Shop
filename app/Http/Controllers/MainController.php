@@ -45,7 +45,7 @@ class MainController extends Controller
         return view('category',compact('category'));
     }
     public function product($category, $productCode) {
-        $product = Product::all();
+        $product = Product::withTrashed()->byCode($productCode)->firstOrFail();
         return view('product', compact('product'));
     }
 

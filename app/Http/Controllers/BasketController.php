@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -11,88 +12,57 @@ class BasketController extends Controller
 {
     public function basket()
     {
-        $orderId = session('orderID');
-        if (!is_null($orderId)){
-            $order = Order::findOrFail($orderId);
-        }
-        return view('basket',compact('order'));
+        $order = (new Basket())->getOrder();
+
+        return view('basket', compact('order'));
     }
+
     public function basketPlace()
     {
-        $orderId = session('orderID');
-        if (is_null($orderId)){
-            return redirect()->route('index');
-        }
-        $order = Order::find($orderId);
-        return view('order',compact('order'));
-    }
-    public function basketAdd($productId)
-    {
-        //session()->forget('orderID');
-        $orderId = session('orderID');
-        if (is_null($orderId)){
-            $order = Order::create();
-            session(['orderID' => $order->id]);
-        }else {
-            $order = Order::find($orderId);
-        }
+        $basket = new Basket();
+        $order = $basket->getOrder();
 
-        if ($order->products->contains($productId)){
-            $pivotRow = $order->products()->where('product_id',$productId)->first()->pivot;
-            $pivotRow->count++;
-            $pivotRow->update();
-        }else{
-            $order->products()->attach($productId);
-        }
-
-        if (Auth::check()){    //сохраняем id пользователя
-            $order->user_id = Auth::id();
-            $order->save();
-        }
-
-        $product = Product::find($productId);
-        Order::changeFullSum($product->price);
-        session()->flash('success','Добавлен товар '.$product->name);
-
-        return redirect()->route('basket');
-    }
-    public function basketRemove($productId)
-    {
-        $orderId = session('orderID');
-        if (is_null($orderId)){
+        if (!$basket->countAvailable()){
+            session()->flash('warning','Tовар не доступен для заказа');
             return redirect()->route('basket');
         }
 
-        $order = Order::find($orderId);
+        return view('order', compact('order'));
+    }
 
-        if ($order->products->contains($productId)){
-            $pivotRow = $order->products()->where('product_id',$productId)->first()->pivot;
-            if ($pivotRow->count < 2){
-                $order->products()->detach($productId);
-            }else{
-                $pivotRow->count--;
-                $pivotRow->update();
-            }
+    public function basketAdd(Product $product)
+    {
+        //dd($product);
+        $result = (new Basket('true'))->addProduct($product);
+
+        if ($result){
+            session()->flash('success', 'Добавлен товар ' . $product->name);
+        } else {
+            session()->flash('warning', 'Tовар ' . $product->name . ' в большем кол-ве не доступен для заказа');
         }
-        $product = Product::find($productId);
-        Order::changeFullSum(-$product->price);
 
-        session()->flash('warning','Удален товар '.$product->name);
+
+
         return redirect()->route('basket');
     }
+
+    public function basketRemove($productId)
+    {
+        //dd($product);
+        (new Basket())->removeProduct($productId);
+        Order::eraseOrderSum();
+        $product= Product::find($productId);
+        session()->flash('warning', 'Удален товар ' . $product->name);
+
+        return redirect()->route('basket');
+    }
+
     public function basketConfirm(Request $request)
     {
-        $orderId = session('orderID');
-        if (is_null($orderId)){
-            return redirect()->route('index');
-        }
-        $order = Order::find($orderId);
-        $success = $order->saveOrder($request->name,$request->phone);
-        //dd($success);
-        if ($success){
-            session()->flash('success','Ваш заказ принят на обработку');
-        }else{
-            session()->flash('warning','Случилась ошибка');
+        if ((new Basket())->saveOrder($request->name, $request->phone)) {
+            session()->flash('success', 'Ваш заказ принят на обработку');
+        } else {
+            session()->flash('warning', 'Tовар не доступен для заказа');
         }
 
         Order::eraseOrderSum();
