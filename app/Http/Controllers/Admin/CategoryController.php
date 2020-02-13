@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -105,6 +106,17 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+
+        $products = Product::all();
+        foreach ($products as $product){
+            if($product->category_id == $category->id) {
+                session()->flash('warning', 'Нельзя удалить категорию, в которой есть товары');
+                return redirect()->route('categories.index');
+            }
+        }
+        //dd($products);
+
+
         $category->delete();
         Storage::delete($category->img);
         return redirect()->route('categories.index');

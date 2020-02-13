@@ -55,6 +55,14 @@
                     @endif
                 </td>
             </tr>
+            <tr>
+                <td>Добавление товара</td>
+                <td>{{ $product->created_at }}</td>
+            </tr>
+            <tr>
+                <td>Редактирование товара</td>
+                <td>{{ $product->updated_at }}</td>
+            </tr>
             </tbody>
         </table>
     </div>

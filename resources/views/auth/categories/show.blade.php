@@ -37,8 +37,12 @@
                          height="140px"></td>
             </tr>
             <tr>
-                <td>Кол-во товаров</td>
-                <td>{{ $category->products->count() }}</td>
+                <td>Дата добавления категории</td>
+                <td>{{ $category->created_at }}</td>
+            </tr>
+            <tr>
+                <td>Дата редактирования категории</td>
+                <td>{{ $category->updated_at }}</td>
             </tr>
             </tbody>
         </table>

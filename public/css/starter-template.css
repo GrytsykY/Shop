@@ -45,3 +45,22 @@ span.badge.badge-danger {
 div.filters {
 	padding-bottom: 5px;
 }
+
+.link{
+	margin: 0 auto;
+}
+.card{
+	box-shadow:6px 8px 7px 0px rgba(0,0,0,0.14);
+	-webkit-box-shadow:6px 8px 7px 0px rgba(0,0,0,0.14);
+	-moz-box-shadow:6px 8px 7px 0px rgba(0,0,0,0.14);
+
+}
+.img{
+	max-width: 200px;
+
+}
+.center>nav{
+	margin: 0;
+	padding: 0;
+	align-content: center;
+}

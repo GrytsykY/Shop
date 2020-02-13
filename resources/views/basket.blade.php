@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <h1>Корзина</h1>
-    <p>Оформление заказа</p>
+    <h1 class="text-center">Корзина</h1>
+    <p class="text-center">Оформление заказа</p>
     <div class="panel">
         <table class="table table-striped">
             <thead>
@@ -26,14 +26,14 @@
                     <td><span class="badge">{{$product->pivot->count}}</span>
                         <div class="btn-group form-inline">
                             <form action="{{route('basket-remove',$product)}}" method="POST">
-                                <button type="submit" class="btn btn-danger">
-                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                <button type="submit" class="btn btn-danger mr-1">
+                                    <span class="fa fa-minus " aria-hidden="true"></span>
                                 </button>
                                 @csrf
                             </form>
                             <form action="{{route('basket-add',$product)}}" method="POST">
                                 <button type="submit" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    <span class="fa fa-plus" aria-hidden="true"></span>
                                 </button>
                                 @csrf
                             </form>

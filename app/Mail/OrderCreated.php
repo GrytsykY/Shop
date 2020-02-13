@@ -20,10 +20,10 @@ class OrderCreated extends Mailable
      * @param $name
      * @param $order
      */
-    public function __construct($name, Order $order)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->order = $order;
+        //$this->order = $order;
     }
 
     /**
@@ -33,12 +33,12 @@ class OrderCreated extends Mailable
      */
     public function build()
     {
-        //dd($this->order->products);
-        $fullSum = $this->order->calculateFullSum();
-        return $this->view('mail.order_created', [
-            'name' => $this->name,
-            'fullSum' => $fullSum,
-            'order' => $this->order
-        ]);
+        return $this->view('mail.order_created', ['name' => $this->name]);
+//        $fullSum = $this->order->calculateFullSum();
+//        return $this->view('mail.order_created', [
+//            'name' => $this->name,
+//            'fullSum' => $fullSum,
+//            'order' => $this->order
+//        ]);
     }
 }

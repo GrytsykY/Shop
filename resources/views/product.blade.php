@@ -3,7 +3,7 @@
 @section('title','Продукты')
 
 @section('content')
-
+    <div class="text-center">
     <h1>{{ $product->name }}</h1>
     <h2>{{ $product->category->name }}</h2>
     <p>Цена: <b>{{ $product->price }} грн.</b></p>
@@ -17,4 +17,5 @@
         @endif
         @csrf
     </form>
+    </div>
 @endsection

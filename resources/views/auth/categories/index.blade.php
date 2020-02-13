@@ -3,6 +3,14 @@
 @section('title', 'Категории')
 
 @section('content')
+    <div class="starter-template">
+        @if(session()->has('success'))
+            <p class="alert alert-success">{{session()->get('success')}}</p>
+        @endif
+        @if(session()->has('warning'))
+            <p class="alert alert-warning">{{session()->get('warning')}}</p>
+        @endif
+    </div>
     <div class="col-md-12">
         <h1>Категории</h1>
         <table class="table">
@@ -18,6 +26,9 @@
                     Название
                 </th>
                 <th>
+                    Дата добав-катег
+                </th>
+                <th>
                     Действия
                 </th>
             </tr>
@@ -26,6 +37,7 @@
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->code }}</td>
                     <td>{{ $category->name }}</td>
+                    <td>{{ $category->created_at }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <form action="{{ route('categories.destroy', $category) }}" method="POST">
@@ -33,15 +45,16 @@
                                 <a class="btn btn-warning" type="button" href="{{ route('categories.edit', $category) }}">Редактировать</a>
                                 @csrf
                                 @method('DELETE')
-                                <input class="btn btn-danger" type="submit" value="Удалить"></form>
+                                <input id="delete" class="btn btn-danger delete" type="submit" value="Удалить"></form>
                         </div>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        {{ $categories->links() }}
+
         <a class="btn btn-success" type="button"
            href="{{ route('categories.create') }}">Добавить категорию</a>
     </div>
+    <div class="link">{{ $categories->links() }}</div>
 @endsection

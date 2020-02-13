@@ -7,4 +7,9 @@ $(document).ready(function () {
 		$("#ssn").mask("999-99-9999");
 
 	});
+
+	$('#delete').click(function () {
+		var res = confirm('Подтвердите действия!');
+		if (!res) return false;
+	});
 });

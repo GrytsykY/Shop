@@ -70,7 +70,7 @@ class Basket
         if (!$this->countAvailable(true)) {
             return false;
         }
-        Mail::to($email)->send(new OrderCreated($name, $this->getOrder()));
+        Mail::to($email)->send(new OrderCreated($name));
         return $this->order->saveOrder($name, $phone);
     }
 
